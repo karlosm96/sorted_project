@@ -1,3 +1,4 @@
+import math
 import pygame
 import random
 pygame.init()
@@ -16,6 +17,8 @@ class screen_information:
         (192, 192, 192)
     ]
 
+    STANDAR_FONT = pygame.font.SysFont("arial", 30)
+    LARGE_FONT = pygame.font.SysFont("arial", 45)
     SIDE_PAD = 100
     TOP_PAD = 150
 
@@ -32,7 +35,7 @@ class screen_information:
         self.max_value = max(lst)
 
         self.pixel_width = round((self.width - self.SIDE_PAD) / len(lst)) ##determines the width of each pixel that will represent the values of the list
-        self.pixel_height = round((self.height - self.TOP_PAD) / (self.max_value - self.min_value))
+        self.pixel_height = math.floor((self.height - self.TOP_PAD) / (self.max_value - self.min_value))
         self.start_draw_x = self.SIDE_PAD // 2
 
 ##generate the list that is going to be sorted
@@ -48,6 +51,12 @@ def generation_list(n, min_val, max_val):
 ##change tha screen attributes
 def draw(draw_information):
     draw_information.window.fill(draw_information.BACKGROUND_COLOR)
+
+    controls = draw_information.STANDAR_FONT.render(">>>  R = Restart || Space = Init sorting || A = Ascending sorting || D = Descending sorting", 1, draw_information.BLACK)
+    draw_information.window.blit(controls, (draw_information.width/2 - controls.get_width()/2, 10))
+    sorting = draw_information.STANDAR_FONT.render("I = Insertion sort || B = Bubble sort", 1, draw_information.BLACK)
+    draw_information.window.blit(sorting, (draw_information.width/2 - sorting.get_width()/2, 50))
+
     draw_list(draw_information)
     pygame.display.update()
 
@@ -67,9 +76,13 @@ def draw_list(draw_information):
 ##main function where is going to draw the algorithm process
 def main():
     run = True
+    sorting = False
+    ascending = False
+    descending = True
     clock = pygame.time.Clock()
     lst = generation_list(100, 1, 20)
-    draw_information = screen_information(500, 600, lst)
+    draw_information = screen_information(500, 1000, lst)
+    
 
     while run:
         clock.tick(60)
@@ -80,6 +93,26 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            
+            if event.type != pygame.KEYDOWN:
+                continue
+
+            if event.key == pygame.K_r:  ## charge a new list and restart the visualization  
+                lst = generation_list(100, 1, 20)
+                draw_information.set_list(lst)
+                sorting = False
+            
+            elif event.key == pygame.K_SPACE and sorting == False:
+                sorting = True
+            
+            elif event.key == pygame.K_a and not sorting: 
+                ascending = True
+            
+            elif event.key == pygame.K_d and not sorting: 
+                descending = False
+            
+            
+
 
     pygame.quit()
 
