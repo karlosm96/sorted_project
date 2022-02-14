@@ -57,7 +57,7 @@ def draw(draw_information, sort_algo_name, ascending):
     title_algo = draw_information.STANDAR_FONT.render(f"{sort_algo_name} - {'Ascending' if ascending else 'Descending'}", 1, draw_information.RED)
     draw_information.window.blit(title_algo, (draw_information.width/2 - title_algo.get_width()/2, 0))
 
-    title_controls = draw_information.STANDAR_FONT.render(">>>  R = Restart || Space = Init sorting || A = Ascending sorting || D = Descending sorting", 1, draw_information.BLACK)
+    title_controls = draw_information.STANDAR_FONT.render(">>> R = Restart || Space = Init sorting || A = Ascending sorting || D = Descending sorting <<<", 1, draw_information.BLACK)
     draw_information.window.blit(title_controls, (draw_information.width/2 - title_controls.get_width()/2, 35))  ## blit the tittle
     
     sorting = draw_information.STANDAR_FONT.render("I = Insertion sort || B = Bubble sort", 1, draw_information.BLACK)
@@ -146,7 +146,7 @@ def main():
     max_list = 100
     num_iterations = 50
     lst = generation_list(num_iterations, min_list, max_list)
-    draw_information = screen_information(500, 1000, lst)
+    draw_information = screen_information(600, 1200, lst)
 
     sort_algo = insertion_sort
     sort_algo_name = "Insertion Sort Algorithm"
