@@ -27,7 +27,7 @@ class screen_information:
         self.height = height
         self.width = width
         self.window = pygame.display.set_mode((width, height)) ## display a window
-        pygame.display.set_caption("Sorting Algorothm")
+        pygame.display.set_caption("Sorting Algorithms")
         self.set_list(lst)
     
     def set_list(self, lst):
@@ -60,7 +60,7 @@ def draw(draw_information, sort_algo_name, ascending):
     title_controls = draw_information.STANDAR_FONT.render(">>> R = Restart || Space = Init sorting || A = Ascending sorting || D = Descending sorting <<<", 1, draw_information.BLACK)
     draw_information.window.blit(title_controls, (draw_information.width/2 - title_controls.get_width()/2, 35))  ## blit the tittle
     
-    sorting = draw_information.STANDAR_FONT.render("I = Insertion sort || B = Bubble sort", 1, draw_information.BLACK)
+    sorting = draw_information.STANDAR_FONT.render("I = Insertion sort || B = Bubble sort || S = Shell sort" , 1, draw_information.BLACK)
     draw_information.window.blit(sorting, (draw_information.width/2 - sorting.get_width()/2, 65))
 
     draw_list(draw_information)
@@ -90,8 +90,6 @@ def draw_list(draw_information, position_color = {}, clear_background = False):
 
         pygame.draw.rect(draw_information.window, color, (x, y, draw_information.pixel_width, draw_information.height))
         
-        
-        
     
     if clear_background:
         pygame.display.update()
@@ -108,10 +106,36 @@ def bubble_sort(draw_information, ascending = True):
             if (num_1 > num_2 and ascending) or (num_1 < num_2 and not ascending):
                 lst[j], lst[j + 1] = lst[j + 1], lst[j]
                 draw_list(draw_information, {j: draw_information.BLUE, j + 1: draw_information.YELLOW}, True)
+                print(lst)
                 yield True
-    print(lst)
     print("\n###------------------------------------------###")
     return lst
+
+
+def shell_sort(draw_information, ascending = True):
+    lst = draw_information.lst
+    n = len(lst)
+
+    # Rearrange elements at each n/2, n/4, n/8, ... intervals
+    interval = n // 2
+    while interval > 0:
+        for i in range(interval, n):
+            temp = lst[i]
+            j = i
+            
+            while (j >= interval and lst[j - interval] > temp and ascending) or (j >= interval and lst[j - interval] < temp and not ascending):
+                lst[j] = lst[j - interval]
+                j -= interval
+
+            lst[j] = temp
+            draw_list(draw_information, {j - 1: draw_information.YELLOW, j: draw_information.BLUE}, True)
+            print(lst)
+        interval //= 2
+        yield True
+
+    print("\n###------------------------------------------###")
+    return lst
+
 
 def insertion_sort(draw_information, ascending = True):
     lst = draw_information.lst
@@ -130,9 +154,9 @@ def insertion_sort(draw_information, ascending = True):
             i = i - 1
             lst[i] =  current
             draw_list(draw_information, {i - 1: draw_information.YELLOW, i: draw_information.BLUE}, True)
+            print(lst)
             yield True
 
-    print(lst, end=" ")
     print("\n###------------------------------------------###")
     return lst
 
@@ -193,6 +217,9 @@ def main():
             elif event.key == pygame.K_b and not sorting: 
                 sort_algo = bubble_sort
                 sort_algo_name = "Bubble Sort Algorithm"
+            elif event.key == pygame.K_s and not sorting: 
+                sort_algo = shell_sort
+                sort_algo_name = "Shell Sort Algorithm"
             
 
     pygame.quit()
