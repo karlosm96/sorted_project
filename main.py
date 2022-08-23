@@ -49,11 +49,11 @@ def generation_list(n, min_val, max_val):
     
     return lst
 
-##change tha screen attributes
+##change tht screen attributes
 def draw(draw_information, sort_algo_name, ascending):
     draw_information.window.fill(draw_information.BACKGROUND_COLOR)
 
-    ##Tittles - top of the screen
+    ##Titles - top of the screen
     title_algo = draw_information.STANDAR_FONT.render(f"{sort_algo_name} - {'Ascending' if ascending else 'Descending'}", 1, draw_information.RED)
     draw_information.window.blit(title_algo, (draw_information.width/2 - title_algo.get_width()/2, 0))
 
@@ -71,7 +71,7 @@ def draw(draw_information, sort_algo_name, ascending):
 def draw_list(draw_information, position_color = {}, clear_background = False):
     lst = draw_information.lst
 
-    ##Clear the part of the window where are the list
+    ##Clear the part of the window
     if clear_background:
         clear_square = (draw_information.SIDE_PAD // 2, draw_information.TOP_PAD, 
                         draw_information.width - draw_information.SIDE_PAD, draw_information.height - draw_information.TOP_PAD)
@@ -160,7 +160,7 @@ def insertion_sort(draw_information, ascending = True):
     print("\n###------------------------------------------###")
     return lst
 
-##main function where is going to draw the algorithm process
+##main function: draw the algorithm process
 def main():
     run = True
     sorting = False
